@@ -1,15 +1,14 @@
 package org.example.andina2026.dtos;
 
 public class ErrorResponse {
-
     private int status;
     private String message;
-    private String path;
+    private String timestamp;
 
-    public ErrorResponse(int status, String message, String path) {
+    public ErrorResponse(int status, String message, String timestamp) {
         this.status = status;
         this.message = message;
-        this.path = path;
+        this.timestamp = timestamp;
     }
 
     public int getStatus() {
@@ -28,11 +27,11 @@ public class ErrorResponse {
         this.message = message;
     }
 
-    public String getPath() {
-        return path;
+    public String getTimestamp() {
+        return timestamp;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 }
