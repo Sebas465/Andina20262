@@ -1,7 +1,6 @@
 package org.example.andina2026.controllers;
 
 import jakarta.validation.Valid;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -25,14 +24,12 @@ public class MaterialCursoController {
     private final MaterialCursoServiceInterface service;
     private final MaterialServiceInterface materialService;
     private final CursoServiceInterface cursoService;
-    private final ModelMapper modelMapper;
 
     public MaterialCursoController(MaterialCursoServiceInterface service, MaterialServiceInterface materialService,
-                                   CursoServiceInterface cursoService, ModelMapper modelMapper) {
+                                   CursoServiceInterface cursoService) {
         this.service = service;
         this.materialService = materialService;
         this.cursoService = cursoService;
-        this.modelMapper = modelMapper;
     }
 
     @GetMapping
@@ -40,7 +37,7 @@ public class MaterialCursoController {
     public ResponseEntity<List<MaterialCursoDTO>> listar() {
         List<MaterialCursoDTO> lista = service.list()
                 .stream()
-                .map(mc -> modelMapper.map(mc.getId(), MaterialCursoDTO.class))
+                .map(mc -> new MaterialCursoDTO(mc.getId().getIdMaterial(), mc.getId().getIdCurso()))
                 .toList();
         return ResponseEntity.ok(lista);
     }
