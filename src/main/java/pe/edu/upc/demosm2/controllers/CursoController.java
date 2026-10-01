@@ -63,6 +63,23 @@ public class CursoController {
         return ResponseEntity.ok(respuesta);
     }
 
+@PutMapping
+    public ResponseEntity<CursoDTOInsert> actualizar(@Valid @RequestBody CursoDTOInsert dto){
+        Curso existente = cS.listId(dto.getId_curso())
+                .orElseThrow(()->
+                        new ResourceNotFoundException(
+        "No existe el curso de ID:" + dto.getId_curso()
+                                )
+                        );
+        Curso curso =modelMapper.map(dto,Curso.class);
+        curso.setId_curso(existente.getId_curso());
+                cS.update(curso);
+
+        CursoDTOInsert actualizado =modelMapper.map(curso,CursoDTOInsert.class);
+        return ResponseEntity.ok(actualizado);
+
+    }
+    
     @DeleteMapping("/{id}") 
     public ResponseEntity<Void> eliminar(@PathVariable Long id){
         Curso curso = cS.listId(id)
@@ -72,5 +89,14 @@ public class CursoController {
                         ));
         cS.delete(curso.getId_curso());
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/area")
+    public ResponseEntity<List<CursoDTOList>> obtenercursosporarea(@RequestParam String a){
+List<CursoDTOList> filtro = cS.buscarporArea(a)
+        .stream()
+        .map(curso -> modelMapper.map(curso,CursoDTOList.class))
+        .toList();
+return ResponseEntity.ok(filtro);
     }
 }
