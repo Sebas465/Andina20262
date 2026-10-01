@@ -21,11 +21,17 @@ import java.util.List;
 public class AsignacionControlller {
     public final IAsignacionDocenteService aS;
     public final ICursoService cs;
+    public final ColegioServiceImplement coS;
+    public final PeriodoAcademicoServiceInterface peS;
+    public final IPersonaService pS;
     public final ModelMapper modelMapper;
 
     public AsignacionControlller(IAsignacionDocenteService aS, ICursoService cs, ModelMapper modelMapper) {
         this.aS = aS;
         this.cs = cs;
+        this.coS = coS;
+        this.peS = peS;
+        this.pS = pS;
         this.modelMapper = modelMapper;
     }
 
@@ -36,9 +42,31 @@ public class AsignacionControlller {
                 new ResourceNotFoundException(
                         "No existe el Curso: "+dto.getId_curso()
                 ));
+
+        PeriodoAcademico pe=peS.listId(dto.getId_periodo())
+                .orElseThrow(()->
+                        new ResourceNotFoundException(
+                                "No existe el Periodo Academico: "+dto.getId_curso()
+                        ));
+
+        Persona per= pS.listId(dto.getId_persona())
+                .orElseThrow(()->
+                        new ResourceNotFoundException(
+                                "No existe el Periodo Academico: "+dto.getId_curso()
+                        ));
+
+       Colegio cole = coS.listId(dto.getId_colegio())
+              .orElseThrow(()->
+                      new ResourceNotFoundException(
+                              "No existe el Periodo Academico: "+dto.getId_curso()
+                      ));
+
         AsignacionDocente ag=modelMapper.map(dto, AsignacionDocente.class);
         ag.setId_asignacion(ag.getId_asignacion());
         ag.setCurso(q);
+        ag.setPeriodoAcademico(pe);
+        ag.setPersona(per);
+        ag.setColegio(cole);
         aS.insert(ag);
 
         AsignacionDTOInsert registro = modelMapper.map(ag,AsignacionDTOInsert.class);
