@@ -98,6 +98,53 @@ public class AsignacionControlller {
         return ResponseEntity.ok(respuesta);
     }
 
+@PutMapping
+    public ResponseEntity<AsignacionDTOInsert> actualizar (@Valid @RequestBody AsignacionDTOInsert dto){
+        Optional<AsignacionDocente> existente =aS.listId(dto.getId_asignacion());
+        if(existente.isEmpty()){
+            throw new ResourceNotFoundException( "No existe la asignación con id: " + dto.getId_asignacion()
+            );
+        }
+
+        Optional<Curso> qurso =cs.listId(dto.getId_curso());
+        if(qurso.isEmpty()){
+            throw new ResourceNotFoundException( "No existe el curso con id: " + dto.getId_curso()
+            );
+        }
+
+        Optional<PeriodoAcademico> periodo = peS.listId(dto.getId_periodo());
+        if(periodo.isEmpty()){
+            throw new ResourceNotFoundException( "No existe el periodo academico con id: " + dto.getId_periodo()
+            );
+        }
+
+        Optional<Persona> persona = pS.listId(dto.getId_persona());
+        if(persona.isEmpty()){
+            throw new ResourceNotFoundException( "No existe una persona con id: " + dto.getId_persona()
+            );
+        }
+
+        Optional<Colegio> cole = coS.listId(dto.getId_colegio());
+        if(cole.isEmpty()){
+            throw new ResourceNotFoundException( "No existe un colegio con id: " + dto.getId_colegio()
+            );
+        }
+
+        AsignacionDocente ad= existente.get();
+        ad.setHorassemanales(dto.getHorassemanales());
+        ad.setModalidad(dto.getModalidad());
+        ad.setId_aula(dto.getId_aula());
+        ad.setCurso(qurso.get());
+        ad.setPeriodoAcademico(periodo.get());
+        ad.setPersona(persona.get());
+        ad.setColegio(cole.get());
+
+        aS.update(ad);
+
+        AsignacionDTOInsert actualizado = modelMapper.map(ad, AsignacionDTOInsert.class);
+        return ResponseEntity.ok(actualizado);
+    }
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id){
         AsignacionDocente docente = aS.listId(id)
