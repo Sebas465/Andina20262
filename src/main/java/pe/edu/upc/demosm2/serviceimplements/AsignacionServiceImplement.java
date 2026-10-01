@@ -34,6 +34,11 @@ public class AsignacionServiceImplement implements IAsignacionDocenteService {
     }
 
     @Override
+    public void update(AsignacionDocente aD) {
+        aR.save(aD);
+    }
+
+    @Override
     public void delete(Long id) {
         aR.deleteById(id);
     }
