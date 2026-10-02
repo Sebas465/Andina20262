@@ -1,9 +1,9 @@
-package org.example.andina2026.serviceimplements;
+package pe.edu.upc.demosm2.serviceimplements;
 
 import org.springframework.stereotype.Service;
-import org.example.andina2026.entities.DetalleMatricula;
-import org.example.andina2026.repositories.IDetalleMatriculaRepository;
-import org.example.andina2026.serviceinterfaces.DetalleMatriculaServiceInterface;
+import pe.edu.upc.demosm2.entities.DetalleMatricula;
+import pe.edu.upc.demosm2.repositories.IDetalleMatriculaRepository;
+import pe.edu.upc.demosm2.serviceinterfaces.DetalleMatriculaServiceInterface;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,8 +22,8 @@ public class DetalleMatriculaServiceImplement implements DetalleMatriculaService
     }
 
     @Override
-    public void insert(DetalleMatricula d) {
-        repository.save(d);
+    public void insert(DetalleMatricula detalleMatricula) {
+        repository.save(detalleMatricula);
     }
 
     @Override
@@ -32,12 +32,22 @@ public class DetalleMatriculaServiceImplement implements DetalleMatriculaService
     }
 
     @Override
-    public void update(DetalleMatricula d) {
-        repository.save(d);
+    public void update(DetalleMatricula detalleMatricula) {
+        repository.save(detalleMatricula);
     }
 
     @Override
     public void delete(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public List<Object[]> retiroPorCurso() {
+        return repository.retiroPorCurso();
+    }
+
+    @Override
+    public List<Object[]> aulasNecesariasPorGrado(Long idPeriodo) {
+        return repository.aulasNecesariasPorGrado(idPeriodo);
     }
 }

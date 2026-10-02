@@ -1,14 +1,12 @@
 package pe.edu.upc.demosm2.dtos;
 
-import jakarta.validation.constraints.*;
-
-public class MatriculaDTOInsert {
+public class MatriculaDTOList {
     private Long idMatricula;
 
-    @NotNull(message = "idColegio es obligatorio")
     private Long idColegio;
 
-    @NotNull(message = "idPersona es obligatorio")
+    private String nombreColegio;
+
     private Long idPersona;
 
     public Long getIdMatricula() {
@@ -25,6 +23,14 @@ public class MatriculaDTOInsert {
 
     public void setIdColegio(Long idColegio) {
         this.idColegio = idColegio;
+    }
+
+    public String getNombreColegio() {
+        return nombreColegio;
+    }
+
+    public void setNombreColegio(String nombreColegio) {
+        this.nombreColegio = nombreColegio;
     }
 
     public Long getIdPersona() {
