@@ -33,7 +33,17 @@ public class CursoServiceImplement implements ICursoService {
     }
 
     @Override
+    public void update(Curso q) {
+        qR.save(q);
+    }
+
+    @Override
     public void delete(Long id) {
         qR.deleteById(id);
+    }
+
+    @Override
+    public List<Curso> buscarporArea(String area) {
+        return qR.findByArea(area);
     }
 }
